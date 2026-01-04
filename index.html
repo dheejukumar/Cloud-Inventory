@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Inventory Dashboard</title>
+ <style>
+  body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: #0f172a;
+  color: #e5e7eb;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background: #020617;
+}
+
+.navbar button {
+  background: #22c55e;
+  border: none;
+  padding: 10px 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  padding: 20px;
+}
+
+.card {
+  background: #020617;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.card.alert {
+  border-left: 4px solid #ef4444;
+}
+
+.products {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.product {
+  background: #020617;
+  padding: 16px;
+  border-radius: 10px;
+}
+
+.low {
+  color: #ef4444;
+  font-weight: bold;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #020617;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+}
+
+.modal input {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 8px;
+}
+
+.close {
+  background: #64748b;
+  margin-top: 10px;
+}
+.alarm {
+  border-left: 6px solid red;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+ </style>
+</head>
+<body>
+  <header class="navbar">
+    <h1>Inventory Management</h1>
+    <button onclick="openModal()">+ Add Product</button>
+  </header>
+  <section class="stats">
+    <div class="card">
+      <h3>Total Products</h3>
+      <p id="totalProducts">0</p>
+    </div>
+    <div class="card">
+      <h3>Total Stock</h3>
+      <p id="totalStock">0</p>
+    </div>
+    <div class="card alert">
+      <h3>Low Stock</h3>
+      <p id="lowStock">0</p>
+    </div>
+  </section>
+
+  <section class="products" id="productList"></section>
+
+  <!-- Modal -->
+  <div id="products"></div>
+  <!-- <span id="totalProducts"></span>
+  <span id="totalStock"></span>
+  <span id="lowStock"></span> -->
+  <div id="totalProducts"></div>
+  <div id="totalStock"></div>
+  <div id="lowStock"></div>
+
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <h2>Add Product</h2>
+      <input id="pid" placeholder="Product ID" />
+      <input id="pname" placeholder="Product Name" />
+      <input id="qty" type="number" placeholder="Quantity" />
+      <input id="th" type="number" placeholder="Threshold" />
+      <button onclick="addProduct()">Save</button>
+      <button class="close" onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
+
+<script src="app.v4.js"></script>
+</body>
+</html>
