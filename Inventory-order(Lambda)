@@ -1,0 +1,53 @@
+import json
+import boto3
+import os
+
+dynamodb = boto3.resource("dynamodb")
+table = dynamodb.Table(os.environ["TABLE_NAME"])
+
+SHOP_ID = "shop"
+
+def lambda_handler(event, context):
+    try:
+        body = json.loads(event.get("body", "{}"))
+
+        productid = body.get("productid")
+        orderQty = int(body.get("orderQty", 0))
+
+        if not productid or orderQty <= 0:
+            return response(400, "Invalid input")
+
+        result = table.update_item(
+            Key={
+                "shopid": SHOP_ID,
+                "productid": productid
+            },
+            UpdateExpression="SET quantity = quantity - :q",
+            ConditionExpression="quantity >= :q",
+            ExpressionAttributeValues={
+                ":q": orderQty
+            },
+            ReturnValues="UPDATED_NEW"
+        )
+
+        return response(200, {
+            "updated": result["Attributes"]
+        })
+
+    except Exception as e:
+        return response(400, str(e))
+
+
+def response(status, data):
+    return {
+        "statusCode": status,
+        "headers": {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Headers": "Content-Type",
+            "Access-Control-Allow-Methods": "OPTIONS,POST"
+        },
+        "body": json.dumps({
+            "success": status == 200,
+            "data": data
+        })
+    }
