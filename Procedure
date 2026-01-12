@@ -1,0 +1,10 @@
+3 Triggers in Inventory-alerts(Lambda)
+DynamoDb-Inventory
+S3-Inventory-alert
+API Gateway-Inventory-order-POST
+
+Inventory-2(Lambda)
+API Gateway-Inventory-api-POST-Products
+
+Inventory-Order(Lambda)
+API Gateway-Order Inventory-POST-Order
