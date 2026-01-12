@@ -1,0 +1,31 @@
+import boto3
+import os
+
+sns = boto3.client('sns')
+
+def lambda_handler(event, context):
+    print("EVENT:", event)
+
+    for record in event['Records']:
+
+        # Only react to stock updates
+        if record['eventName'] != 'MODIFY':
+            continue
+
+        new = record['dynamodb']['NewImage']
+        old = record['dynamodb']['OldImage']
+
+        new_qty = int(new['quantity']['N'])
+        old_qty = int(old['quantity']['N'])
+        threshold = int(new['threshold']['N'])
+        product = new['productname']['S']
+
+        print(f"{product}: {old_qty} → {new_qty} (threshold {threshold})")
+
+        # 🔥 THIS IS THE IMPORTANT PART
+        if old_qty >= threshold and new_qty < threshold:
+            sns.publish(
+                TopicArn=os.environ['SNS_TOPIC_ARN'],
+                Subject="🚨 Low Stock Alert",
+                Message=f"{product} stock is LOW: {new_qty} remaining"
+            )
