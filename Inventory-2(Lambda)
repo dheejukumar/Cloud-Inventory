@@ -1,0 +1,64 @@
+import json
+import boto3
+import os
+from datetime import datetime
+from decimal import Decimal
+
+dynamodb = boto3.resource("dynamodb")
+
+TABLE_NAME = os.environ["TABLE_NAME"]
+SHOP_ID = os.environ["SHOP_ID"]
+
+table = dynamodb.Table(TABLE_NAME)
+
+def lambda_handler(event, context):
+    print("EVENT:", json.dumps(event))
+
+    method = event.get("httpMethod")
+    resource = event.get("resource")
+
+    # ---------- GET PRODUCTS ----------
+    if method == "GET" and resource == "/products":
+        res = table.query(
+            KeyConditionExpression="shopid = :s",
+            ExpressionAttributeValues={":s": SHOP_ID}
+        )
+        return response(200, res.get("Items", []))
+
+    # ---------- ADD PRODUCT ----------
+    if method == "POST" and resource == "/products":
+        body = json.loads(event["body"])
+
+        # ✅ USE EXACT FRONTEND FIELD NAMES
+        quantity = Decimal(str(body["quantity"]))
+        threshold = Decimal(str(body["threshold"]))
+
+        # Basic validation only
+        if quantity < 0 or threshold < 0:
+            return response(400, {"message": "Quantity and threshold must be >= 0"})
+
+        item = {
+            "shopid": SHOP_ID,
+            "productid": body["productid"],
+            "productname": body["productname"],
+            "quantity": quantity,
+            "threshold": threshold,
+            "updatedat": datetime.utcnow().isoformat()
+        }
+
+        table.put_item(Item=item)
+        return response(200, {"message": "Product added"})
+
+    return response(404, {"message": "Not found"})
+
+
+def response(code, body):
+    return {
+        "statusCode": code,
+        "headers": {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Headers": "*",
+            "Access-Control-Allow-Methods": "*"
+        },
+        "body": json.dumps(body, default=str)
+    }
