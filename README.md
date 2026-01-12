@@ -1,11 +1,13 @@
-📦 Cloud-Based Inventory Management System (Serverless)
+📦 Cloud-Based Inventory Management System (Serverless):
 
 A serverless inventory management web application designed for local retailers and small businesses to track stock levels, manage products, and receive real-time low-stock alerts using AWS cloud services.
-📦 Cloud-Based Inventory Management System (Serverless)
+
+📦 Cloud-Based Inventory Management System (Serverless):
 
 A serverless inventory management web application designed for local retailers and small businesses to track stock levels, manage products, and receive real-time low-stock alerts using AWS cloud services.
-🛠️ Tech Stack
-Frontend
+
+🛠️ Tech Stack:
+Frontend:
 
 HTML5
 
@@ -15,13 +17,13 @@ JavaScript (Vanilla JS)
 
 Hosted on Amazon S3 (Static Website Hosting)
 
-Backend (Serverless)
+Backend (Serverless):
 
 AWS Lambda (Python 3.11)
 
 Amazon API Gateway (REST API)
 
-Database & Messaging
+Database & Messaging:
 
 Amazon DynamoDB – Inventory storage
 
@@ -29,34 +31,25 @@ DynamoDB Streams – Detect stock changes
 
 Amazon SNS – Low-stock email/SMS alerts
 
-Monitoring & Security
+Monitoring & Security:
 
 AWS IAM – Least-privilege access control
 
-✨ Features
-📊 Inventory Dashboard
-
+✨ Features:
+📊 Inventory Dashboard:
 View all products in real time
-
 Displays quantity, threshold, and last updated time
-
 Auto-refresh after updates
 
-➕ Product Management
-
+➕ Product Management:
 Add new products with:
-
 Product ID
-
 Product Name
-
 Quantity
-
 Threshold level
-
 Stored securely in DynamoDB
 
-🛒 Order Processing
+🛒 Order Processing:
 
 Place orders directly from the UI
 
@@ -75,13 +68,13 @@ Notifications sent via Amazon SNS
 
 Works even if stock is updated outside the UI (DynamoDB console, API)
 
-🔄 Event-Driven Architecture
+🔄 Event-Driven Architecture:
 
 DynamoDB Stream → Lambda → SNS
 
 No polling, no cron jobs
 
-⚡ Fully Serverless
+⚡ Fully Serverless:
 
 No servers to manage
 
@@ -89,7 +82,7 @@ Scales automatically
 
 Pay only for usage
 
-🧩 Architecture Overview
+🧩 Architecture Overview:
 
 User interacts with Frontend (S3-hosted website)
 
@@ -131,7 +124,7 @@ Stream Lambda evaluates threshold
 
 SNS sends alert if stock is low
 
-📈 Benefits
+📈 Benefits:
 
 ✅ No server maintenance
 
@@ -145,13 +138,13 @@ SNS sends alert if stock is low
 
 ✅ Production-grade cloud architecture
 
-🧪 APIs Used
+🧪 APIs Used:
 Method	Endpoint	Description
 GET	/products	Fetch all inventory items
 POST	/products	Add a new product
 POST	/inventory-order	Place an order & reduce stock
 
-🔐 Security & Best Practices
+🔐 Security & Best Practices:
 
 Separate IAM roles for:
 
@@ -167,7 +160,7 @@ CORS-enabled APIs
 
 CloudWatch logging enabled
 
-🧠 What I Learned
+🧠 What I Learned:
 
 Designing event-driven architectures
 
