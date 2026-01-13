@@ -8,3 +8,9 @@ API Gateway-Inventory-api-POST-Products
 
 Inventory-Order(Lambda)
 API Gateway-Order Inventory-POST-Order
+
+2 API Gateway Should be Created.
+both of them should be REST API.
+
+1.Inventory-api
+2.order-inventory
